@@ -12,6 +12,7 @@ public class droneScript : MonoBehaviour {
     public float engageDistance;
     [Tooltip("Enable to have drone peacefully follow the player")]
     public bool observe;
+    public float bulletSpeed;
     public float shotDelay;
     public GameObject bullet;
     public List<GameObject> bullets = new List<GameObject>();
@@ -97,12 +98,19 @@ public class droneScript : MonoBehaviour {
         Debug.Log("fire");
         yield return new WaitForSeconds(shotDelay);
         GameObject bull = GetBullets();
-        Rigidbody rb = bull.GetComponent<Rigidbody>();
+        bull.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         bull.transform.position = transform.position + transform.forward * 2;
+        bull.GetComponent<bulletScript>().target = target.transform;
+        bull.GetComponent<bulletScript>().speed = bulletSpeed;
         bull.SetActive(true);
-        Vector3 tempTarg = target.transform.position + new Vector3(Random.Range(0, 0.5f), Random.Range(0, 0.5f), Random.Range(0, 0.5f));
+        /*
+        Rigidbody rb = bull.GetComponent<Rigidbody>();
+        
+        bull.SetActive(true);
+        Vector3 tempTarg = target.transform.position + new Vector3(Random.Range(0, 0.2f), Random.Range(0, 02f), Random.Range(0, 0.2f));
         Debug.Log("Target: " + tempTarg);
-        rb.velocity = tempTarg.normalized * 2;
+        rb.AddForce(tempTarg);
+        */    
         fire = false;
 
     }
